@@ -1,0 +1,26 @@
+function[]=pixel(a,v,w,x,y,z)
+    
+    scf(v);
+    im=imread(a);
+    Matplot1(im,[0,0,1,1]);
+    
+    scf(w);
+    img1=imresize(im,0.5);
+    im1=imresize(img1,2);
+    Matplot(im1);
+    
+    scf(x);
+    img2=imresize(img1,0.5);
+    im2=imresize(img2,4);
+    Matplot(im2);
+    
+    scf(y);
+    img3=imresize(img2,0.5);
+    im3=imresize(img3,8);
+    Matplot(im3);
+    
+    scf(z);
+    img4=imresize(img3,0.5);
+    im4=imresize(img4,16);
+    Matplot(im4);
+    
