@@ -1,4 +1,4 @@
-function[a]=avem(a)   //モノクロモザイク
+function[a]=avem(a)   //モノクロモザイク、256*256画素限定
    
    a=im2double(a);
       for i=1:8:256
