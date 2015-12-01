@@ -1,0 +1,30 @@
+function[a]=avem(a)   //モノクロモザイク
+   
+   a=im2double(a);
+      for i=1:8:256
+        for j=1:8:256
+            v=0;
+            b=0;
+            
+            for k=0:1:7
+                for h=0:1:7
+        v=v+a(i+k,j+h);
+    end
+    end
+            b=v/64;
+            
+            
+        for x=0:1:7
+            for y=0:1:7
+        a(i+x,j+y)=b;
+        
+    end
+    end
+        
+        
+        
+end
+end
+a=im2uint8(a);
+
+endfunction
