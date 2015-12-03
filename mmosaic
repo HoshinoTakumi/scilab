@@ -1,5 +1,8 @@
-function[a]=avem(a)   //モノクロモザイク、256*256画素限定
+function[]=mmosaic(a)   //モノクロ、256x256サイズ限定のモザイク
    
+   a=imread(a);
+   scf(1);
+   Matplot(a);
    a=im2double(a);
       for i=1:8:256
         for j=1:8:256
@@ -26,5 +29,6 @@ function[a]=avem(a)   //モノクロモザイク、256*256画素限定
 end
 end
 a=im2uint8(a);
-
+scf(2);
+Matplot(a);
 endfunction
