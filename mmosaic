@@ -1,44 +1,47 @@
-function[]=mmosaic(a)  //未完成
+function[]=mmosaic(a)
    
-   a=imread(a);
-   scf(1);
-   Matplot(a);
-    
-    
-    x=locate(1);
-    xx=x(1,1);
-    xy=x(2,1);
-    
-    y=locate(1);
-    yx=y(1,1);
-    yy=y(2,1);
+   a=imread(a);         //画像読み込み
+   scf(1);              //ウィンドウ作成
+   Matplot(a);          //画像表示
    
-   a=im2double(a);
-      for i=xx:8:yx
-        for j=xy:8:yy
+      a=a($:-1:1,:);    //画像反転
+    
+    x=locate(1);        //始点座標の獲得(左下)
+     x1=x(2,1);          //始点のx座標
+     y1=x(1,1);          //始点のy座標
+  
+    y=locate(1);        //終点座標の獲得(右上)
+     x2=y(2,1);          //終点のx座標
+     y2=y(1,1);          //終点のy座標
+     
+   
+   a=im2double(a);      //オーバーフローを防ぐための型変換
+      for i=x1:8:x2     //どれぐらいの範囲でモザイクをかけるか(ここでは8×8)
+        for j=y1:8:y2
             v=0;
             b=0;
             
             for k=0:1:7
                 for h=0:1:7
-        v=v+a(i+k,j+h);
+        v=v+a(i+k,j+h); //8×8の範囲の画素の値を足す
     end
     end
-            b=v/64;
+            b=v/64;     //足した範囲の画素の平均値を出す
             
             
         for t=0:1:7
             for s=0:1:7
-        a(i+t,j+s)=b;
+        a(i+t,j+s)=b;   //出した平均値を当てはめる
         
     end
     end
         
         
-        
 end
 end
-a=im2uint8(a);
+   a=a($:-1:1,:);       //反転した画像を元に戻す
+
+a=im2uint8(a);          //変換した型を元に戻す
 scf(2);
-Matplot(a);
+Matplot(a);             //新しくウィンドウを作成しモザイク処理をした画像を表示させる
 endfunction
