@@ -1,0 +1,59 @@
+function[]=cmosaic(a)
+  
+   a=imread(a);        
+   scf(1);              
+   Matplot(a);          
+   
+         a=a($:-1:1,:,:); 
+   
+    x=locate(1);       
+     startx=x(2,1);         
+     starty=x(1,1);          
+  
+    y=locate(1);       
+     endx=y(2,1);        
+     endy=y(1,1);    
+     
+   a=im2double(a);
+   
+      for i=startx:8:endx   
+        for j=starty:8:endy
+            total1=0;
+            total2=0;
+            total3=0;
+            ave1=0;
+            ave2=0;
+            ave3=0;
+            
+            for k=0:1:7
+                for h=0:1:7
+        total1=total1+a(i+k,j+h,1); 
+        total2=total2+a(i+k,j+h,2);
+        total3=total3+a(i+k,j+h,3);
+    end
+    end
+            ave1=total1/64;     
+            ave2=total2/64;
+            ave3=total3/64;
+            
+            
+        for t=0:1:7
+            for s=0:1:7
+        a(i+t,j+s,1)=ave1;
+        a(i+t,j+s,2)=ave2;
+        a(i+t,j+s,3)=ave3;   
+        
+    end
+    end
+        
+        
+end
+end
+
+      a=a($:-1:1,:,:); 
+
+a=im2uint8(a);          
+scf(2);
+Matplot(a);             
+    
+endfunction
