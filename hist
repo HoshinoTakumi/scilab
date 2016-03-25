@@ -1,0 +1,261 @@
+function[]=hist(a)
+   a=imread(a);        
+   scf(1);              
+   Matplot(a);  
+   
+   
+   a=rgb2gray(a);
+   [count, cells]=imhist(a);
+
+    scf(2);
+    plot(cells,count);
+    xtitle('ヒストグラム',['輝度値'],['画素数']);
+    
+   
+   for i=1:1:256
+       if(count(i,1)>=1)
+           ul=i;  //上限値
+           end
+   end
+   for i=256:-1:1
+       if(count(i,1)<>0)
+           ll=i;  //下限値
+           end
+   end
+   
+   num=0;
+   num=uint32(num); //uint32にしないとオーバーフローが起きる
+   for i=1:1:256
+        num=num+i*count(i,1); //全輝度値の合計
+   end
+   
+   ave0=num/(256*256); //輝度値の平均
+   
+   total1=0;
+   total1=uint32(total1);
+   total2=0;
+   total2=uint32(total2);
+   b1=0;
+   b2=0;
+   
+   for i=ll:1:ave0
+       total1=total1+i*count(i,1); //全輝度値の平均以下の合計輝度値
+       b1=b1+count(i,1)     //以下の合計画素数
+   end
+   for i=ave0+1:1:ul
+       total2=total2+i*count(i,1); //全輝度値の平均以上の合計輝度値
+       b2=b2+count(i,1);    //以上の合計画素数
+   end
+   
+   ave1=total1/b1; //以下の平均輝度値
+   ave2=total2/b2; //以上の平均輝度値
+   
+   dis1=0;
+   dis2=0;
+   a1=0;
+   a2=0;
+   dis1=uint32(dis1);
+   dis2=uint32(dis2);
+   a1=uint32(a1);
+   a2=uint32(a2);
+   
+   for i=ll:1:ave0
+       dis1=dis1+(((i-ave1)^2)*count(ll,1)); 
+       a1=a1+count(ll,1);
+   end
+   for i=ave0+1:1:ul
+       dis2=dis2+(((i-ave2)^2)*count(ul,1)); 
+       a2=a2+count(ul,1);
+   end
+    
+   dis1=dis1/a1;//以下の分散式
+   dis2=dis2/a2;//以上の分散式
+   
+   w1=0;
+   b1=0;
+   t1=0;
+   w1=uint32(w1);
+   b1=uint32(b1);
+   t1=uint32(t1);
+
+   w1=(a1*dis1+a2*dis2)/(a1+a2);
+   b1=(a1*(ave1-ave0)^2+a2*(ave2-ave0^2))/(a1+a2);
+   t1=b1/w1;
+
+   
+   
+   
+   total3=0;
+   total3=uint32(total3);
+   total4=0;
+   total4=uint32(total4); //初期化
+   b3=0;
+   b4=0;
+   
+   for i=ll:1:ave0-1
+       total3=total3+i*count(i,1); //全輝度値の平均以下の合計輝度値
+       b3=b3+count(i,1)
+   end
+   for i=ave0:1:ul
+       total4=total4+i*count(i,1); //全輝度値の平均以上の合計輝度値
+       b4=b4+count(i,1);
+   end
+   
+   ave3=total3/b3; //以下の平均輝度値
+   ave4=total4/b4; //以上の平均輝度値
+   
+   dis3=0;
+   dis4=0;
+   a3=0;
+   a4=0; //初期化
+   dis3=uint32(dis3);
+   dis4=uint32(dis4);
+   a3=uint32(a3);
+   a4=uint32(a4);
+   
+   for i=ll:1:ave0-1
+       dis3=dis3+(((i-ave3)^2)*count(ll,1)); //以下の分散式
+       a3=a3+count(ll,1);
+   end
+   for i=ave0:1:ul
+       dis4=dis4+(((i-ave4)^2)*count(ul,1)); //以上の分散式
+       a4=a4+count(ul,1);
+   end
+    
+   dis3=dis3/a3;
+   dis4=dis4/a4;
+   
+   w2=0;
+   b2=0;
+   t2=0;
+   w2=uint32(w2);
+   b2=uint32(b2);
+   t2=uint32(t2);
+   
+   w2=(a3*dis3+a4*dis4)/(a3+a4);
+   b2=(a3*(ave3-ave0)^2+a4*(ave4-ave0^2))/(a3+a4);
+   t2=b2/w2;
+   
+   while t1>t2  //比較
+       t2=t1;
+       ave0=ave0+1;
+   total1=0;
+   total1=uint32(total1);
+   total2=0;
+   total2=uint32(total2); //初期化
+   bあ1=0;
+   b2=0;
+   
+   for i=ll:1:ave0
+       total1=total1+i*count(i,1); //全輝度値の平均以下の合計輝度値
+       b1=b1+count(i,1)
+   end
+   for i=ave0+1:1:ul
+       total2=total2+i*count(i,1); //全輝度値の平均以上の合計輝度値
+       b2=b2+count(i,1);
+   end
+   
+   ave1=total1/b1; //以下の平均輝度値
+   ave2=total2/b2; //以上の平均輝度値
+   
+   dis1=0;
+   dis2=0;
+   a1=0;
+   a2=0; //初期化
+   dis1=uint32(dis1);
+   dis2=uint32(dis2);
+   a1=uint32(a1);
+   a2=uint32(a2);
+   
+   for i=ll:1:ave0
+       dis1=dis1+(((i-ave1)^2)*count(ll,1)); //以下の分散式
+       a1=a1+count(ll,1);
+   end
+   for i=ave0+1:1:ul
+       dis2=dis2+(((i-ave2)^2)*count(ul,1)); //以上の分散式
+       a2=a2+count(ul,1);
+   end
+    
+   dis1=dis1/a1;
+   dis2=dis2/a2;
+   
+   w1=0;
+   b1=0;
+   t1=0;
+   w1=uint32(w1);
+   b1=uint32(b1);
+   t1=uint32(t1);
+
+   w1=(a1*dis1+a2*dis2)/(a1+a2);
+   b1=(a1*(ave1-ave0)^2+a2*(ave2-ave0^2))/(a1+a2);
+   t1=b1/w1;
+   end
+   
+   
+   
+   while t1<t2  //比較
+       t1=t2;
+       ave=ave0-1;
+   total3=0;
+   total3=uint32(total3);
+   total4=0;
+   total4=uint32(total4); //初期化
+   b3=0;
+   b4=0;
+   
+   for i=ll:1:ave0-1
+       total3=total3+i*count(i,1); //全輝度値の平均以下の合計輝度値
+       b3=b3+count(i,1)
+   end
+   for i=ave0:1:ul
+       total4=total4+i*count(i,1); //全輝度値の平均以上の合計輝度値
+       b4=b4+count(i,1);
+   end
+   
+   ave3=total3/b3; //以下の平均輝度値
+   ave4=total4/b4; //以上の平均輝度値
+   
+   dis3=0;
+   dis4=0;
+   a3=0;
+   a4=0; //初期化
+   dis3=uint32(dis3);
+   dis4=uint32(dis4);
+   a3=uint32(a3);
+   a4=uint32(a4);
+   
+   for i=ll:1:ave0-1
+       dis3=dis3+(((i-ave3)^2)*count(ll,1)); //以下の分散式
+       a3=a3+count(ll,1);
+   end
+   for i=ave0:1:ul
+       dis4=dis4+(((i-ave4)^2)*count(ul,1)); //以上の分散式
+       a4=a4+count(ul,1);
+   end
+    
+   dis3=dis3/a3;
+   dis4=dis4/a4;
+   
+   w2=0;
+   b2=0;
+   t2=0;
+   w2=uint32(w2);
+   b2=uint32(b2);
+   t2=uint32(t2);
+   
+   w2=(a3*dis3+a4*dis4)/(a3+a4);
+   b2=(a3*(ave3-ave0)^2+a4*(ave4-ave0^2))/(a3+a4);
+   t2=b2/w2;
+   end
+   
+   ave0=double(ave0);
+   ave0=ave0/256;
+   a=im2bw(a,ave0);
+   
+   a=im2uint8(a);
+   
+             
+           
+scf(3);
+Matplot(a);
+endfunction
