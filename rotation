@@ -1,4 +1,4 @@
-function[]=rotation(a)  //不完全
+function[]=rotation(a)
        a=imread(a);
        scf(1);              
        Matplot(a);
@@ -10,7 +10,6 @@ function[]=rotation(a)  //不完全
                for y=1:1:256
                    n=(x-128)*cos(-%pi/2)-(y-128)*sin(-%pi/2)+128;
                    m=(x-128)*sin(-%pi/2)+(y-128)*cos(-%pi/2)+128;
-                   disp(n,m)
                    d(n+2,m+2)=a(x,y);
                end
            end
@@ -21,7 +20,6 @@ function[]=rotation(a)  //不完全
                for y=1:1:256
                    n=(x-128)*cos(-%pi)-(y-128)*sin(-%pi)+128;
                    m=(x-128)*sin(-%pi)+(y-128)*cos(-%pi)+128;
-                   disp(n,m)
                    d(n+2,m+2)=a(x,y);
                end
            end
@@ -32,11 +30,11 @@ function[]=rotation(a)  //不完全
                for y=1:1:256
                    n=(x-128)*cos(-%pi*3/2)-(y-128)*sin(-%pi*3/2)+128;
                    m=(x-128)*sin(-%pi*3/2)+(y-128)*cos(-%pi*3/2)+128;
-                   disp(n,m)
                    d(n+2,m+2)=a(x,y);
                end
            end
        end
+       
        
            
        d=im2uint8(d);
