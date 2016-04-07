@@ -1,0 +1,60 @@
+function[]=capture()
+    
+    a=camopen();
+    for f=1:0.01:100000000
+        n=modulo(f,1)
+        if n==0 then
+    im = avireadframe(a);  
+    m=modulo(f,10)
+    
+    if m==1 then
+    imwrite(im,'1.bmp') 
+end
+
+if m==2 then
+    imwrite(im,'2.bmp') 
+end
+
+if m==3 then
+    imwrite(im,'3.bmp') 
+end
+
+if m==4 then
+    imwrite(im,'4.bmp') 
+end
+
+if m==5 then
+    imwrite(im,'5.bmp') 
+end
+
+if m==6 then
+    imwrite(im,'6.bmp') 
+end
+if m==7 then
+    imwrite(im,'7.bmp') 
+end
+
+if m==8 then
+    imwrite(im,'8.bmp') 
+end
+
+if m==9 then
+    imwrite(im,'9.bmp') 
+end
+
+if m==0 then
+    imwrite(im,'10.bmp') 
+end
+
+face=detectfaces(im);
+[x,y]=size(face);
+for j=1:x
+    im=rectangle(im,face(j,:),[0,255,255]);
+    end
+
+    imshow(im);
+end
+end
+    avilistopened()
+    aviclose(a);
+    endfunction
